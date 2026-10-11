@@ -239,8 +239,4 @@ public class PacienteServiceTest {
         ).save(any(Paciente.class));
     }
     
-    @Test
-    void pruebaControlada_CI_DebeFallar() {
-        org.junit.jupiter.api.Assertions.assertEquals(1, 2);
-    }
 }
