@@ -43,11 +43,11 @@ jobs:
 
           - module: ms-pacientes
 
-            test: PacienteServiceTest
+            test: PacienteServiceTest,PacienteControllerTest
 
           - module: ms-citas
 
-            test: CitaServiceTest
+            test: CitaServiceTest,CitaControllerTest
 
           - module: ms-notificaciones
 
