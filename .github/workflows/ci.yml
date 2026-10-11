@@ -1,0 +1,101 @@
+
+name: CI - Hospital Vida Salud
+
+
+
+on:
+
+  push:
+
+    branches: [ "main" ]
+
+  pull_request:
+
+    branches: [ "main" ]
+
+
+
+jobs:
+
+  build-and-test:
+
+    name: ${{ matrix.module }}
+
+    runs-on: ubuntu-latest
+
+
+
+    strategy:
+
+      fail-fast: false
+
+      matrix:
+
+        include:
+
+          - module: eureka-server
+
+            test: EurekaServerApplicationTests
+
+          - module: api-gateway
+
+            test: ApiGatewayApplicationTests
+
+          - module: ms-pacientes
+
+            test: PacienteServiceTest
+
+          - module: ms-citas
+
+            test: CitaServiceTest
+
+          - module: ms-notificaciones
+
+            test: CitaEventoListenerTest
+
+
+
+    steps:
+
+      - name: Descargar codigo
+
+        uses: actions/checkout@v4
+
+
+
+      - name: Configurar Java 21
+
+        uses: actions/setup-java@v4
+
+        with:
+
+          distribution: temurin
+
+          java-version: '21'
+
+          cache: maven
+
+
+
+      - name: Dar permisos a Maven Wrapper
+
+        working-directory: ${{ matrix.module }}
+
+        run: chmod +x mvnw
+
+
+
+      - name: Compilar
+
+        working-directory: ${{ matrix.module }}
+
+        run: ./mvnw -B -DskipTests compile
+
+
+
+      - name: Ejecutar pruebas automatizadas
+
+        working-directory: ${{ matrix.module }}
+
+        run: ./mvnw -B -Dtest=${{ matrix.test }} test
+
